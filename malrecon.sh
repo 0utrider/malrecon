@@ -30,15 +30,14 @@ echo -e "\033[1;35m     /|  /|       /)\033[1;96m    /   )\033[0m"
 echo -e "\033[1;35m    / | / |  _   // \033[1;96m   /__ /  _  _  _____\033[0m"
 echo -e "\033[1;35m ) /  |/  |_(_(_(/_ \033[1;96m) /   \__(/_(__(_) / (_\033[0m"
 echo -e "\033[1;35m(_/   '            \033[1;96m _/\033[0m"
-echo -e "          v1.04               by \033[0;97mOutrider\033[0m"
+echo -e "          v1.05               by \033[0;97mOutrider\033[0m"
 echo ""
 echo -e "\033[2;0mBasic Malware Reconnaissance Tool\033[0m"
 echo ""
 echo ""
 
 # Define the URL to be reconned
-## Was the URL provided as an argument?
-if [ -z "$1" ]
+if [ -z "$1" ] ## Was the URL provided as an argument?
   then
     read -p 'URL: ' reconURL ## Ask the user for input if not
   else
@@ -47,13 +46,21 @@ if [ -z "$1" ]
 fi
 
 # Define the case number
-## Was the case provided as an argument?
-if [ -z "$2" ]
+if [ -z "$2" ] ## Was the case provided as an argument?
   then
     read -p 'Case No.: ' reconCase ## Ask the user for input if not
   else
 	reconCase=$2 ## Set the case number if it was provided
 	echo "Case No.: $reconCase"
+fi
+
+# Define the case number
+if [ -z "$3" ] ## Was a password provided as an argument?
+  then
+    read -p 'Password: ' reconPasswd ## Ask the user for input if not
+  else
+	reconPasswd=$3 ## Set the case number if it was provided
+	echo "Password set."
 fi
 
 # Create directory structure and change working directory
@@ -66,7 +73,7 @@ cd ~/recon/$reconCase
 ## The user agent string (-A) is us pretending to be Internet Explorer 9 running on Windows 7
 ## For more user agents:		http://www.useragentstring.com/pages/useragentstring.php
 echo -e "Performing\033[1;37m curl \033[0m..."
-curl -s -o $reconCase.curl -A "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0" $reconURL 2>&1 | tee $reconCase.curl-log
+curl -s -o $reconCase.curl -A "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0" $reconURL
 
 ## lets wget the URL provided by the user
 echo -e "Performing\033[1;37m wget \033[0m..."
@@ -74,8 +81,8 @@ wget -q --user-agent="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; 
 
 ## lets run checksums on the wget download
 echo -e "Generating\033[1;37m hashes \033[0m..."
-md5sum $reconCase.malware > $reconCase.md5
-sha256sum $reconCase.malware > $reconCase.sha256
+md5sum $reconCase.malware | awk '{print $1}' > $reconCase.md5
+sha256sum $reconCase.malware | awk '{print $1}' > $reconCase.sha256
 
 ## lets run strings against the download
 echo -e "Generating\033[1;37m strings \033[0m..."
@@ -103,20 +110,26 @@ cat $reconCase.md5 >> $reconCase.properties
 cat $reconCase.sha256 >> $reconCase.properties
 echo "" >> $reconCase.properties
 
-### add a few spoonfulls of od for the file header
+### add a few spoonfuls of od (file header)
+od -bc $reconCase.malware | head > $reconCase.header
 echo "File Header:" >> $reconCase.properties
 echo "" >> $reconCase.properties
 echo "--------------------" >> $reconCase.properties
-od -bc $reconCase.malware | head >> $reconCase.properties
+cat $reconCase.header >> $reconCase.properties
 echo "" >> $reconCase.properties
 echo "" >> $reconCase.properties
 echo "=======================================================================" >> $reconCase.properties
 
 # Set permissions
 echo "Setting permissions ..."
+## Change the value to 440 if you want this to be more forensically sound
 chmod 660 $reconCase.*
 
-# wrap-up!
+# Zip it! Zip it good!
+echo -e "Compressing and encrypting to \033[1;37m 7z \033[0mfile ..."
+7z a $reconCase.7z * -p$reconPasswd
+
+# That's a wrap!
 echo -e "\033[0;97mDone.\033[0m"
 echo ""
 echo -e "To see output files, navigate:    \e[38;5;214mcd ~/recon/$reconCase\033[0m\n"
