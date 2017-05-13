@@ -1,4 +1,12 @@
 #!/bin/bash
+#
+# MalRecon - A Basic Malware Reconnaissance Tool, by Outrider
+#
+# Get the latest version here: https://github.com/0utrider/malrecon
+# 
+# Usage:	Performs basic malware/download reconnaissance of URLs (curl, wget, hashing, etc.)
+# Syntax:	malrecon [URL] [Case No.]
+# Example:	malrecon http://malwaredomain.org/payload1 IN123456
 
 # Banner
 echo ""
@@ -7,7 +15,7 @@ echo -e "\033[1;35m     /|  /|       /)\033[1;96m (  /   )\033[0m"
 echo -e "\033[1;35m    / | / |  _   // \033[1;96m   /__ /  _  _  _____\033[0m"
 echo -e "\033[1;35m ) /  |/  |_(_(_(/_ \033[1;96m) /   \__(/_(__(_) / (_\033[0m"
 echo -e "\033[1;35m(_/   '            \033[1;96m(_/\033[0m"
-echo -e "          v1.02               \033[0;97mby Outrider\033[0m"
+echo -e "          v1.03               by \033[0;97mOutrider\033[0m"
 echo ""
 echo -e "\033[2;0mBasic Malware Reconnaissance Tool\033[0m"
 echo ""
@@ -24,8 +32,13 @@ if [ -z "$1" ]
 fi
 
 ## Define the case number
-read -p 'Case No.: ' reconCase
-echo ""
+if [ -z "$2" ]
+  then
+    read -p 'Case No.: ' reconCase ## Ask the user for input if not
+  else
+	reconCase=$2 ## Set the case number if it was provided
+	echo "Case No.: $reconCase"
+fi
 
 # Create directory structure and change working directory
 echo -e "Creating directory \033[0;97m$reconCase\033[0m ..."
