@@ -16,13 +16,23 @@ I plan to add more features as I think of them - if you have any ideas, especial
 
 
 File Outputs:
+
 .7z           Compressed & encrypted vault of all other outputs
+
 .curl         Curls the URL provided
+
 .floss        FireEye Labs Obfuscated String Solver (FLOSS) out of the .malware file
+
 .header       File header and hex values of the .malware file
+
 .malware      The downloaded file/binary - this is the file that is analyzed by other tools
+
 .md5          MD5sum of the .malware file
+
 .properties   Summarized file properties of the .malware file
+
 .sha256       SHA256sum of the .malware file
+
 .strings      Strings output of the .malware file
+
 .wget         wget command log file of output
