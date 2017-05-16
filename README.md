@@ -3,7 +3,7 @@ Basic Malware Reconnaissance Tool
 by [Outrider](https://github.com/0utrider)
 
 ## Information
-This is just a simple tool used to automate some of the more mundane tasks when obtaining malware for analysis. The final action is to compress/encrypt all of the files in a 7z for portability and analysis.
+This is just a simple tool used to automate some of the more mundane tasks when obtaining malware. The final action is to compress/encrypt all of the files in a 7z for portability and analysis. It is designed to work out-of-the-box with Kali Linux, but shoudl work with most Linux distros no problem.
 
 I plan to add more features as I think of them - if you have any ideas, especially for more useful tools and outputs, please let me know!
 
@@ -13,14 +13,18 @@ I plan to add more features as I think of them - if you have any ideas, especial
 
 **Example:**	`malrecon http://malwaredomain.org/payload1 IN123456 MalZipP@$$`
 
-
-
+## Prerequisites
+```
+binutils      Strings utility
+p7zip-full    7zip file archiver
+floss         FireEye Labs Obfuscated String Solver (FLOSS) - https://github.com/fireeye/flare-floss
+```
 
 ## File Outputs
 ```
 .7z           Compressed & encrypted vault of all other outputs
 .curl         Curls the URL provided
-.floss        FireEye Labs Obfuscated String Solver (FLOSS) out of the .malware file
+.floss        FLOSS output of the .malware file
 .header       File header and hex values of the .malware file
 .malware      The downloaded file/binary - this is the file that is analyzed by other tools
 .md5          MD5sum of the .malware file
