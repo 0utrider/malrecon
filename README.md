@@ -24,6 +24,7 @@ I plan to add more features as I think of them - if you have any ideas, especial
 .header       File header and hex values of the .malware file
 .malware      The downloaded file/binary - this is the file that is analyzed by other tools
 .md5          MD5sum of the .malware file
+.password     Password to .7z file
 .properties   Summarized file properties of the .malware file
 .sha256       SHA256sum of the .malware file
 .strings      Strings output of the .malware file
