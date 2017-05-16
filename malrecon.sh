@@ -23,11 +23,20 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-# User defined variables
-reconDefaultPass="MalZippity!"		# Default password for 7zip files
+# =================== USER DEFINED VARIABLES ===================
+## Default password for 7zip files
+reconDefaultPass="MalZippity!"
+
 ## The user agent string below is the tool pretending to be Internet Explorer 9 running on Windows 7
 ### For more user agents:		http://www.useragentstring.com/pages/useragentstring.php
-reconAgent="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0"
+reconAgent="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)"
+
+## File permissions
+### Read-write with no execute "660"
+### Change to read only "440" if you want this to be more forensically sound
+reconPermissions="660"
+
+# ================= END USER DEFINED VARIABLES =================
 
 # Banner
 echo ""
@@ -67,7 +76,7 @@ if [ -z "$3" ] # Was a password provided as an argument?
   then
 	read -e -p "Password: " -i "$reconDefaultPass" reconPass
   else
-	reconPass=$3 # Set the case number if it was provided
+	reconPass=$3 # Set the password if it was provided
 	echo "Password set."
 fi
 
@@ -128,8 +137,7 @@ echo "=======================================================================" >
 
 # Set permissions
 echo "Setting permissions ..."
-## Change the value to 440 if you want this to be more forensically sound
-chmod 660 $reconCase.*
+chmod $reconPermissions $reconCase.*
 
 # Zip it! Zip it good!
 echo -e "Compressing and encrypting to \033[38;5;254m7z file\033[0m ..."
