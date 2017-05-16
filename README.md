@@ -3,7 +3,7 @@ Basic Malware Reconnaissance Tool
 by [Outrider](https://github.com/0utrider)
 
 ## Information
-This is just a simple tool used to automate some of the more mundane tasks when obtaining malware. The final action is to compress/encrypt all of the files in a 7z for portability and analysis. It is designed to work out-of-the-box with Kali Linux, but shoudl work with most Linux distros no problem.
+This is just a simple tool used to automate some of the more mundane tasks when obtaining malware. The final action is to compress/encrypt all of the files in a 7z for portability and analysis. It is designed to work out-of-the-box with Kali Linux, but should work with most 'nix distros with no problem.
 
 I plan to add more features as I think of them - if you have any ideas, especially for more useful tools and outputs, please let me know!
 
