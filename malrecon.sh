@@ -51,7 +51,7 @@ echo -e "\033[38;5;196m      /|  /|       /)\033[38;5;63m    /   )              
 echo -e "\033[38;5;196m     / | / |  _   // \033[38;5;63m   /__ /  _  _  _____   \033[0m"
 echo -e "\033[38;5;196m  ) /  |/  |_(_(_(/_ \033[38;5;63m  /   \__(/_(__(_) / (_ \033[0m"
 echo -e "\033[38;5;196m (_/   '             \033[38;5;63m /                      \033[0m"
-echo -e "\033[38;5;254m           v1.06               by Outrider   \033[0m"
+echo -e "\033[38;5;254m           v1.07               by Outrider   \033[0m"
 echo -e "\033[38;5;0m                                             \033[0m"
 echo -e "      Basic Malware Reconnaissance Tool      "
 echo ""
@@ -94,11 +94,11 @@ cd $reconPath/$reconCase
 # Basic recon functions begin here
 ## lets curl the URL provided by the user
 echo -e "Performing \033[38;5;254mcurl\033[0m ..."
-curl -s -o $reconCase.curl -A "$reconAgent" $reconURL
+curl -s -o $reconCase.curl -A "$reconAgent" $reconURL > /dev/null 2>&1
 
 ## lets wget the URL provided by the user
 echo -e "Performing \033[38;5;254mwget\033[0m ..."
-wget -q --user-agent="$reconAgent" -c $reconURL -O $reconCase.malware > $reconCase.wget
+wget -q --user-agent="$reconAgent" -c $reconURL -O $reconCase.malware > $reconCase.wget 2>&1
 
 ## lets run checksums on the wget download
 echo -e "Generating \033[38;5;254mhashes\033[0m ..."
@@ -111,7 +111,7 @@ strings $reconCase.malware > $reconCase.strings
 
 ## lets run FLOSS (https://github.com/fireeye/flare-floss) against the download
 echo -e "Generating \033[38;5;254mfloss\033[0m ..."
-floss $reconCase.malware > $reconCase.floss
+floss $reconCase.malware > $reconCase.floss > /dev/null 2>&1
 
 
 ## lets run file data and record it to a properties file
@@ -121,7 +121,7 @@ echo "=======================================================================" >
 echo "" >> $reconCase.properties
 echo "File Information:" >> $reconCase.properties
 echo "--------------------" >> $reconCase.properties
-file $reconCase.malware >> $reconCase.properties
+file $reconCase.malware | cut -d " " -f2- >> $reconCase.properties
 echo "" >> $reconCase.properties
 
 ### sprinkle in the hashes
@@ -147,7 +147,7 @@ chmod $reconPermissions $reconCase.*
 
 # Zip it! Zip it good!
 echo -e "Compressing and encrypting to \033[38;5;254m7z file\033[0m ..."
-7z a $reconCase.7z * -mhe -mx9 -p$reconPass
+7z a $reconCase.7z * -mhe -mx9 -p$reconPass > /dev/null 2>&1
 
 # Create companion password file
 echo -e "Writing \033[38;5;254mpassword file\033[0m ..."
@@ -155,5 +155,8 @@ echo -e "$reconPass" > $reconCase.password
 
 # That's a wrap!
 echo -e "\033[30;48;5;82mDone.\033[0m"
+echo ""
+echo "Probable file type:"
+file $reconCase.malware | cut -d " " -f2-
 echo ""
 echo -e "To see output files, navigate:    \e[38;5;214mcd $reconPath/$reconCase\033[0m\n"
