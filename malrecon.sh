@@ -32,6 +32,10 @@ reconDefaultPass="MalZippity!"
 ### For more user agents:		http://www.useragentstring.com/pages/useragentstring.php
 reconAgent="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)"
 
+## Output directory
+### Default is the "recon" directory user's home path, i.e.: ~/recon/
+reconPath="~/recon"
+
 ## File permissions
 ### Read-write with no execute "660"
 ### Change to read only "440" if you want this to be more forensically sound
@@ -49,7 +53,7 @@ echo -e "\033[38;5;196m  ) /  |/  |_(_(_(/_ \033[38;5;63m  /   \__(/_(__(_) / (_
 echo -e "\033[38;5;196m (_/   '             \033[38;5;63m /                      \033[0m"
 echo -e "\033[38;5;254m           v1.06               by Outrider   \033[0m"
 echo -e "\033[38;5;0m                                             \033[0m"
-echo -e "\033[38;5;254m      Basic Malware Reconnaissance Tool      \033[0m"
+echo -e "      Basic Malware Reconnaissance Tool      "
 echo ""
 echo "           https://git.io/0utrider           "
 echo ""
@@ -83,8 +87,8 @@ fi
 
 # Create directory structure and change working directory
 echo -e "Creating directory \033[38;5;254m$reconCase\033[0m ..."
-mkdir -p ~/recon/$reconCase
-cd ~/recon/$reconCase
+mkdir -p $reconPath/$reconCase
+cd $reconPath/$reconCase
 
 # Basic recon functions begin here
 ## lets curl the URL provided by the user
@@ -142,7 +146,7 @@ chmod $reconPermissions $reconCase.*
 
 # Zip it! Zip it good!
 echo -e "Compressing and encrypting to \033[38;5;254m7z file\033[0m ..."
-7z a $reconCase.7z * -p$reconPass
+7z a $reconCase.7z * -mhe -mx9 -p$reconPass
 
 # Create companion password file
 echo -e "Writing \033[38;5;254mpassword file\033[0m ..."
