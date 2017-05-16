@@ -33,8 +33,8 @@ reconDefaultPass="MalZippity!"
 reconAgent="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)"
 
 ## Output directory
-### Default is the "recon" directory user's home path, i.e.: ~/recon/
-reconPath="~/recon"
+### Default is the "recon" directory in the user's home path, i.e.: ~/recon
+reconDir="~/recon"
 
 ## File permissions
 ### Read-write with no execute "660"
@@ -87,6 +87,7 @@ fi
 
 # Create directory structure and change working directory
 echo -e "Creating directory \033[38;5;254m$reconCase\033[0m ..."
+$reconPath=`eval echo $reconDir`	# determine the literal path to the output directory, prevents errors
 mkdir -p $reconPath/$reconCase
 cd $reconPath/$reconCase
 
