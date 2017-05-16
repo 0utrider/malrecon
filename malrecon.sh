@@ -4,7 +4,7 @@
 #
 # Usage:	Performs basic malware/download reconnaissance of URLs (curl, wget, hashing, etc.)
 # Syntax:	malrecon [URL] [Case No.] [Password]
-# Example:	malrecon http://malwaredomain.org/payload1 IN123456 MalZippy
+# Example:	malrecon http://malwaredomain.org/payload1 IN123456 MalZippity!
 #
 # Get the latest version here: https://github.com/0utrider/malrecon
 #
@@ -24,6 +24,7 @@
 #   limitations under the License.
 
 # =================== USER DEFINED VARIABLES ===================
+
 ## Default password for 7zip files
 reconDefaultPass="MalZippity!"
 
