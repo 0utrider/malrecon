@@ -3,8 +3,8 @@
 # MalRecon - A Basic Malware Reconnaissance Tool, by Outrider
 #
 # Usage:	Performs basic malware/download reconnaissance of URLs (curl, wget, hashing, etc.)
-# Syntax:	malrecon [URL] [Case No.]
-# Example:	malrecon http://malwaredomain.org/payload1 IN123456
+# Syntax:	malrecon [URL] [Case No.] [Password]
+# Example:	malrecon http://malwaredomain.org/payload1 IN123456 MalZippy
 #
 # Get the latest version here: https://github.com/0utrider/malrecon
 #
@@ -23,17 +23,25 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+# User defined variables
+reconDefaultPass="MalZippity!"		# Default password for 7zip files
+## The user agent string below is the tool pretending to be Internet Explorer 9 running on Windows 7
+### For more user agents:		http://www.useragentstring.com/pages/useragentstring.php
+reconAgent="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0"
+
 # Banner
 echo ""
-echo -e "\033[1;35m   (_     __)       \033[1;96m  _____\033[0m"
-echo -e "\033[1;35m     /|  /|       /)\033[1;96m    /   )\033[0m"
-echo -e "\033[1;35m    / | / |  _   // \033[1;96m   /__ /  _  _  _____\033[0m"
-echo -e "\033[1;35m ) /  |/  |_(_(_(/_ \033[1;96m) /   \__(/_(__(_) / (_\033[0m"
-echo -e "\033[1;35m(_/   '            \033[1;96m _/\033[0m"
-echo -e "          v1.05               by \033[0;97mOutrider\033[0m"
+echo -e "\033[38;5;0m                                             \033[0m"
+echo -e "\033[38;5;196m    (_     __)       \033[38;5;63m  _____                 \033[0m"
+echo -e "\033[38;5;196m      /|  /|       /)\033[38;5;63m    /   )               \033[0m"
+echo -e "\033[38;5;196m     / | / |  _   // \033[38;5;63m   /__ /  _  _  _____   \033[0m"
+echo -e "\033[38;5;196m  ) /  |/  |_(_(_(/_ \033[38;5;63m  /   \__(/_(__(_) / (_ \033[0m"
+echo -e "\033[38;5;196m (_/   '             \033[38;5;63m /                      \033[0m"
+echo -e "\033[38;5;254m           v1.06               by Outrider   \033[0m"
+echo -e "\033[38;5;0m                                             \033[0m"
+echo -e "\033[38;5;254m      Basic Malware Reconnaissance Tool      \033[0m"
 echo ""
-echo -e "\033[2;0mBasic Malware Reconnaissance Tool\033[0m"
-echo ""
+echo "           https://git.io/0utrider           "
 echo ""
 
 # Define the URL to be reconned
@@ -50,46 +58,44 @@ if [ -z "$2" ] ## Was the case provided as an argument?
   then
     read -p 'Case No.: ' reconCase ## Ask the user for input if not
   else
-	reconCase=$2 ## Set the case number if it was provided
+	reconCase=$2 # Set the case number if it was provided
 	echo "Case No.: $reconCase"
 fi
 
-# Define the case number
-if [ -z "$3" ] ## Was a password provided as an argument?
+# Define the 7zip password
+if [ -z "$3" ] # Was a password provided as an argument?
   then
-    read -p 'Password: ' reconPasswd ## Ask the user for input if not
+	read -e -p "Password: " -i "$reconDefaultPass" reconPass
   else
-	reconPasswd=$3 ## Set the case number if it was provided
+	reconPass=$3 # Set the case number if it was provided
 	echo "Password set."
 fi
 
 # Create directory structure and change working directory
-echo -e "Creating directory \033[0;97m$reconCase\033[0m ..."
+echo -e "Creating directory \033[38;5;254m$reconCase\033[0m ..."
 mkdir -p ~/recon/$reconCase
 cd ~/recon/$reconCase
 
 # Basic recon functions begin here
 ## lets curl the URL provided by the user
-## The user agent string (-A) is us pretending to be Internet Explorer 9 running on Windows 7
-## For more user agents:		http://www.useragentstring.com/pages/useragentstring.php
-echo -e "Performing\033[1;37m curl \033[0m..."
-curl -s -o $reconCase.curl -A "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0" $reconURL
+echo -e "Performing \033[38;5;254mcurl\033[0m ..."
+curl -s -o $reconCase.curl -A "$reconAgent" $reconURL
 
 ## lets wget the URL provided by the user
-echo -e "Performing\033[1;37m wget \033[0m..."
-wget -q --user-agent="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0" -c $reconURL -O $reconCase.malware > $reconCase.wget
+echo -e "Performing \033[38;5;254mwget\033[0m ..."
+wget -q --user-agent="$reconAgent" -c $reconURL -O $reconCase.malware > $reconCase.wget
 
 ## lets run checksums on the wget download
-echo -e "Generating\033[1;37m hashes \033[0m..."
+echo -e "Generating \033[38;5;254mhashes\033[0m ..."
 md5sum $reconCase.malware | awk '{print $1}' > $reconCase.md5
 sha256sum $reconCase.malware | awk '{print $1}' > $reconCase.sha256
 
 ## lets run strings against the download
-echo -e "Generating\033[1;37m strings \033[0m..."
+echo -e "Generating \033[38;5;254mstrings\033[0m ..."
 strings $reconCase.malware > $reconCase.strings
 
 ## lets run FLOSS (https://github.com/fireeye/flare-floss) against the download
-echo -e "Generating\033[1;37m floss \033[0m..."
+echo -e "Generating \033[38;5;254mfloss\033[0m ..."
 floss $reconCase.malware > $reconCase.floss
 
 
@@ -126,10 +132,14 @@ echo "Setting permissions ..."
 chmod 660 $reconCase.*
 
 # Zip it! Zip it good!
-echo -e "Compressing and encrypting to \033[1;37m 7z \033[0mfile ..."
-7z a $reconCase.7z * -p$reconPasswd
+echo -e "Compressing and encrypting to \033[38;5;254m7z file\033[0m ..."
+7z a $reconCase.7z * -p$reconPass
+
+# Create companion password file
+echo -e "Writing \033[38;5;254mpassword file\033[0m ..."
+echo -e "$reconPass" > $reconCase.password
 
 # That's a wrap!
-echo -e "\033[0;97mDone.\033[0m"
+echo -e "\033[30;48;5;82mDone.\033[0m"
 echo ""
 echo -e "To see output files, navigate:    \e[38;5;214mcd ~/recon/$reconCase\033[0m\n"
