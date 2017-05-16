@@ -87,7 +87,7 @@ fi
 
 # Create directory structure and change working directory
 echo -e "Creating directory \033[38;5;254m$reconCase\033[0m ..."
-$reconPath=`eval echo $reconDir`	# determine the literal path to the output directory, prevents errors
+reconPath=`eval echo $reconDir`		# determine the literal path to the output directory, prevents errors
 mkdir -p $reconPath/$reconCase
 cd $reconPath/$reconCase
 
