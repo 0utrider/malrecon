@@ -155,4 +155,4 @@ echo -e "$reconPass" > $reconCase.password
 # That's a wrap!
 echo -e "\033[30;48;5;82mDone.\033[0m"
 echo ""
-echo -e "To see output files, navigate:    \e[38;5;214mcd ~/recon/$reconCase\033[0m\n"
+echo -e "To see output files, navigate:    \e[38;5;214mcd $reconPath/$reconCase\033[0m\n"
