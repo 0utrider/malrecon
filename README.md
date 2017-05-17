@@ -35,6 +35,25 @@ floss         FireEye Labs Obfuscated String Solver (FLOSS) - https://github.com
 .wget         wget command log file of output
 ```
 
+## How To Install
+This assumes you are using Kali Linux. Add 'sudo' before commands if you are not logged in as root.
+
+```
+apt-get install git -y
+mkdir -p /install/path
+cd /install/path
+git clone https://github.com/0utrider/malrecon
+chmod +x /install/path/malrecon/malrecon.sh
+ln -s /install/path/malrecon/malrecon.sh /usr/bin/malrecon
+```
+
+To update the script:
+
+```
+cd /install/path/malrecon
+git pull origin master
+```
+
 ## To-Do
 - [x] Add 7zip support
 - [ ] Add dependency installer script
