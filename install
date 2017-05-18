@@ -38,5 +38,49 @@ echo ""
 echo "           https://git.io/0utrider           "
 echo ""
 
-# Nothing here yet
-echo "Still working on this."
+# Define prerequisite packages
+installPax="binutils p7zip-full"
+
+# Set directory
+## Below it is trying to ensure that the commands are run out of the real malrecon directory, resolving symlinks
+installPath=$(dirname $(realpath -s $0))
+cd $installPath
+echo -e "Setting \033[38;5;254mpath\033[0m to \033[38;5;254m$installPath\033[0m ..."
+
+# Permissions: allow execute on scripts
+echo -e "Setting \033[38;5;254mpermissions\033[0m ..."
+chmod +x install malrecon update
+
+# Create symbolic link
+echo -e "Creating \033[38;5;254msymbolic link\033[0m ..."
+ln -s $installPath /usr/bin/malrecon
+
+# Install dependencies
+## Package manager check
+installApt=$(which apt-get)
+installPac=$(which pacman)
+installYum=$(which yum)
+
+if [[ ! -z $installApt ]]; then		# if apt-get exists on the system, install dependencies
+  apt-get update > /dev/null 2>&1
+  apt-get install -y $installPax > /dev/null 2>&1
+elif [[ ! -z $installPac ]]; then	# if pacman exists on the system, install dependencies
+  pacman -Sy > /dev/null 2>&1
+  pacman -S $installPax > /dev/null 2>&1
+  pacman -S p7zip > /dev/null 2>&1
+## TO-DO: (RPM fork)
+###elif [[ ! -z $installYum ]]; then	# if yum exists on the system, install dependencies
+###  yum 
+else
+    echo -e "\033[38;5;196mCannot find APT-GET, PACMAN, or YUM\033[0m"
+	echo ""
+	echo "You will need to install the following:"
+	echo $installPax
+	echo ""
+    exit 1;
+fi
+
+# (Not finished with this script yet!)
+echo ""
+echo "(Still working on this.)"
+echo ""
