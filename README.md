@@ -36,10 +36,9 @@ floss         FireEye Labs Obfuscated String Solver (FLOSS) - https://github.com
 ```
 
 ## How To Install
-This assumes you are using Kali Linux. Add 'sudo' before commands if you are not logged in as root.
+This assumes you have Git installed and that you are using Kali Linux. Add 'sudo' before commands if you are not logged in as root, or using another distro.
 
 ```
-apt-get install git -y
 mkdir -p [/install/path]
 cd [/install/path]
 git clone https://github.com/0utrider/malrecon
