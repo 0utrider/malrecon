@@ -3,8 +3,8 @@
 # MalRecon - A Basic Malware Reconnaissance Tool, by Outrider
 #
 # Usage:	Updates MalRecon by utilizing Git
-# Syntax:	./update.sh
-# Example:	./update.sh
+# Syntax:	./update
+# Example:	./update
 #
 # Get the latest version here: https://github.com/0utrider/malrecon
 #
@@ -39,9 +39,8 @@ echo "           https://git.io/0utrider           "
 echo ""
 
 # Set directory
-## Below it trying to ensure that the commands are run out of the real malrecon directory, resolving symlinks
+## Below it is trying to ensure that the commands are run out of the real malrecon directory, resolving symlinks
 updatePath=$(dirname $(realpath -s $0))
-# updatePath="$( cd "$(dirname "$0")" ; pwd -P )"
 cd $updatePath
 
 # Update using Git
@@ -51,9 +50,7 @@ git reset -q --hard origin/master
 git clean -dfq
 
 # Reset permissions
-chmod +x install
-chmod +x malrecon
-chmod +x update
+chmod +x install malrecon update
 
 # That's a wrap!
 echo -e "\033[30;48;5;82mDone.\033[0m"
