@@ -42,6 +42,7 @@ This assumes you have Git installed and that you are using Kali Linux. Add 'sudo
 mkdir -p [/install/path]
 cd [/install/path]
 git clone https://github.com/0utrider/malrecon
+chmod +x install
 ./install
 ```
 
