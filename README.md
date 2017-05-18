@@ -40,18 +40,18 @@ This assumes you are using Kali Linux. Add 'sudo' before commands if you are not
 
 ```
 apt-get install git -y
-mkdir -p /install/path
-cd /install/path
+mkdir -p [/install/path]
+cd [/install/path]
 git clone https://github.com/0utrider/malrecon
-chmod +x /install/path/malrecon/malrecon.sh
-ln -s /install/path/malrecon/malrecon.sh /usr/bin/malrecon
+./install
 ```
 
-To update the script:
+## How to Update
+Simply run the *update* script from within the malrecon directory.
 
 ```
-cd /install/path/malrecon
-git pull origin master
+cd [/install/path]/malrecon
+./update
 ```
 
 ## To-Do
