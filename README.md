@@ -9,13 +9,13 @@ I plan to add more features as I think of them - if you have any ideas, especial
 
 **Usage:** Performs basic malware/download reconnaissance of URLs (curl, wget, hashing, etc.)
 
-**Syntax:**		`malrecon [URL] [Case Number] [Zip File Password]`
+**Syntax:**		`malrecon` **or** `malrecon [URL] [Case Number] [Zip File Password]`
 
-**Example:**	`malrecon http://malwaredomain.org/payload1 IN123456 MalZipP@$$`
+**Example:**	`malrecon http://malwaredomain.org/payload1 IN123456 MalZippity!`
 
 ## Prerequisites
 ```
-binutils      Strings utility
+binutils      Contains the strings utility
 p7zip-full    7zip file archiver
 floss         FireEye Labs Obfuscated String Solver (FLOSS) - https://github.com/fireeye/flare-floss
 ```
