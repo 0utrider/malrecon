@@ -118,6 +118,11 @@ floss $reconCase.malware > $reconCase.floss > /dev/null 2>&1
 echo "Recording basic file details ..."
 echo "=======================================================================" > $reconCase.properties
 ###  note that we start appending to the .properties file now with >> instead of >
+echo "Origin URL:" >> $reconCase.properties
+echo "--------------------" >> $reconCase.properties
+echo "$reconURL" >> $reconCase.properties
+echo "$reconURL" > $reconCase.url
+
 echo "" >> $reconCase.properties
 echo "File Information:" >> $reconCase.properties
 echo "--------------------" >> $reconCase.properties
