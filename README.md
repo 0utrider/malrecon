@@ -32,6 +32,7 @@ floss         FireEye Labs Obfuscated String Solver (FLOSS) - https://github.com
 .properties   Summarized file properties of the .malware file
 .sha256       SHA256sum of the .malware file
 .strings      Strings output of the .malware file
+.url          URL used to operate the script / URL reconned
 .wget         wget command log file of output
 ```
 
