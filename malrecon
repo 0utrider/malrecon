@@ -135,15 +135,14 @@ cat $reconCase.md5 >> $reconCase.properties
 cat $reconCase.sha256 >> $reconCase.properties
 echo "" >> $reconCase.properties
 
-### listen to your dentist and floss daily...
+### listen to your dentist and floss between meals...
 if [ -s $reconCase.floss ]
-  then
-		echo "FLOSS Findings" >> $reconCase.properties
-		echo "" >> $reconCase.properties
+  then		# If the .floss file isn't empty, recap the important stuff
+		echo "FLOSS Findings:" >> $reconCase.properties
 		echo "--------------------" >> $reconCase.properties
 		cat $reconCase.floss | grep "FLOSS decoded" >> $reconCase.properties
 		cat $reconCase.floss | grep "FLOSS extracted" >> $reconCase.properties
-	else
+	else	# If the .floss file is empty, delete it.
 		rm -f $reconCase.floss
 fi
 echo "" >> $reconCase.properties
@@ -151,7 +150,6 @@ echo "" >> $reconCase.properties
 ### add a few spoonfuls of od (file header)
 od -bc $reconCase.malware | head > $reconCase.header
 echo "File Header:" >> $reconCase.properties
-echo "" >> $reconCase.properties
 echo "--------------------" >> $reconCase.properties
 cat $reconCase.header >> $reconCase.properties
 echo "" >> $reconCase.properties
