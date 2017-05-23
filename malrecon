@@ -146,6 +146,7 @@ if [ -s $reconCase.floss ]
 	else
 		rm -f $reconCase.floss
 fi
+echo "" >> $reconCase.properties
 
 ### add a few spoonfuls of od (file header)
 od -bc $reconCase.malware | head > $reconCase.header
