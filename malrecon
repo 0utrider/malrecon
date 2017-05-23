@@ -60,29 +60,29 @@ echo ""
 
 # Define the URL to be reconned
 if [ -z "$1" ] ## Was the URL provided as an argument?
-  then
-    read -p 'URL: ' reconURL ## Ask the user for input if not
-  else
-	reconURL=$1 ## Set the URL if it was provided
-	echo "URL: $reconURL"
+	then
+		read -p 'URL: ' reconURL ## Ask the user for input if not
+	else
+		reconURL=$1 ## Set the URL if it was provided
+		echo "URL: $reconURL"
 fi
 
 # Define the case number
 if [ -z "$2" ] ## Was the case provided as an argument?
-  then
-    read -p 'Case No.: ' reconCase ## Ask the user for input if not
-  else
-	reconCase=$2 # Set the case number if it was provided
-	echo "Case No.: $reconCase"
+	then
+		read -p 'Case No.: ' reconCase ## Ask the user for input if not
+	else
+		reconCase=$2 # Set the case number if it was provided
+		echo "Case No.: $reconCase"
 fi
 
 # Define the 7zip password
 if [ -z "$3" ] # Was a password provided as an argument?
-  then
-	read -e -p "Password: " -i "$reconDefaultPass" reconPass
-  else
-	reconPass=$3 # Set the password if it was provided
-	echo "Password set."
+	then
+		read -e -p "Password: " -i "$reconDefaultPass" reconPass
+	else
+		reconPass=$3 # Set the password if it was provided
+		echo "Password set."
 fi
 
 # Create directory structure and change working directory
@@ -111,8 +111,7 @@ strings $reconCase.malware > $reconCase.strings
 
 ## lets run FLOSS (https://github.com/fireeye/flare-floss) against the download
 echo -e "Generating \033[38;5;254mfloss\033[0m ..."
-floss $reconCase.malware > $reconCase.floss > /dev/null 2>&1
-
+floss -s $reconCase.malware > $reconCase.floss
 
 ## lets run file data and record it to a properties file
 echo "Recording basic file details ..."
@@ -135,6 +134,18 @@ echo "--------------------" >> $reconCase.properties
 cat $reconCase.md5 >> $reconCase.properties
 cat $reconCase.sha256 >> $reconCase.properties
 echo "" >> $reconCase.properties
+
+### listen to your dentist and floss daily...
+if [ -s $reconCase.floss ]
+  then
+		echo "FLOSS Findings" >> $reconCase.properties
+		echo "" >> $reconCase.properties
+		echo "--------------------" >> $reconCase.properties
+		cat $reconCase.floss | grep "FLOSS decoded" >> $reconCase.properties
+		cat $reconCase.floss | grep "FLOSS extracted" >> $reconCase.properties
+	else
+		rm -f $reconCase.floss
+fi
 
 ### add a few spoonfuls of od (file header)
 od -bc $reconCase.malware | head > $reconCase.header
@@ -162,6 +173,14 @@ echo -e "$reconPass" > $reconCase.password
 echo -e "\033[30;48;5;82mDone.\033[0m"
 echo ""
 echo "Probable file type:"
-file $reconCase.malware | cut -d " " -f2-
+file $reconCase.malware | cut -d " " -f2-			# Echo the supposed file type
+echo ""
+if [ ! -f $reconCase.floss ]						# Does the .floss file exist?
+	then												# No
+		echo "FLOSS not installed."
+	else												# Yes
+		cat $reconCase.floss | grep "FLOSS decoded"
+		cat $reconCase.floss | grep "FLOSS extracted"	
+fi
 echo ""
 echo -e "To see output files, navigate:    \e[38;5;214mcd $reconPath/$reconCase\033[0m\n"
