@@ -14,6 +14,8 @@ I plan to add more features as I think of them - if you have any ideas, especial
 **Example:**	`malrecon http://malwaredomain.org/payload1 IN123456 MalZippity!`
 
 ## Prerequisites
+Installed via installer script - Note: FLOSS is still a manual install at this time, work in progress.
+
 ```
 binutils      Contains the strings utility
 p7zip-full    7zip file archiver
@@ -57,5 +59,6 @@ cd [/install/path]/malrecon
 
 ## To-Do
 - [x] Add 7zip support
-- [ ] Add dependency installer script
+- [ ] Add dependency installer script - in progress
+- [ ] Move user-set variables to a homedir preferences file
 - [ ] Find additional tools to use for outputs
