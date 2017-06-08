@@ -53,7 +53,7 @@ chmod +x install malrecon update
 
 # Create symbolic link
 echo -e "Creating \033[38;5;254msymbolic link\033[0m ..."
-ln -s $installPath /usr/bin/malrecon
+ln -s $installPath/malrecon /usr/bin/malrecon
 
 # Install dependencies
 ## Package manager check
