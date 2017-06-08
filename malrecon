@@ -176,7 +176,7 @@ file $reconCase.malware | cut -d " " -f2-			# Echo the supposed file type
 echo ""
 if [ ! -f $reconCase.floss ]						# Does the .floss file exist?
 	then												# No
-		echo "FLOSS not installed."
+		echo "FLOSS not installed, or empty file."
 	else												# Yes
 		cat $reconCase.floss | grep "FLOSS decoded"
 		cat $reconCase.floss | grep "FLOSS extracted"	
